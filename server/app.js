@@ -9,6 +9,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 const app = express();
+const cors = require('cors');
 
 /*
  * Middlewares
@@ -27,6 +28,14 @@ app.use(
     resave: true,
     saveUninitialized: true,
   })
+);
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true,
+  }),
 );
 
 /*
