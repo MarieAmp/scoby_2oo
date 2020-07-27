@@ -1,18 +1,35 @@
 import React, { Component } from "react";
 import LocationAutoComplete from "../LocationAutoComplete";
 import "../../styles/form.css";
+import apiHandler from "../../api/apiHandler";
 
 class ItemForm extends Component {
   state = {};
 
-  handleChange(event) {
-    console.log("Wax On Wax Off");
-    this.setState({});
-  }
+  handleChange = (event) => {
+    const input = event.target;
+
+    this.setState({
+      [input.id]: input.type === "file" ? input.files[0] : input.value,
+      // tempImage: input.type === "file" && URL.createObjectURL(event.target.files[0])
+    });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Wax On Wax Off");
+
+    const fd = new FormData();
+    for (let key in this.state) {
+      fd.append(key, this.state[key]);
+    }
+
+    console.log(fd);
+    // apiHandler
+    //   .createItem(fd)
+    //   .then((apiRes) => {
+    //     console.log("Item created ==> ", apiRes);
+    //   })
+    //   .catch((error) => console.log(error));
 
     // In order to send back the data to the client, since there is an input type file you have to send the
     // data as formdata.
@@ -32,7 +49,11 @@ class ItemForm extends Component {
   render() {
     return (
       <div className="ItemForm-container">
-        <form className="form" onChange={this.handleChange}>
+        <form
+          className="form"
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+        >
           <h2 className="title">Add Item</h2>
 
           <div className="form-group">

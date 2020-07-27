@@ -50,4 +50,39 @@ export default {
       .then((res) => res.data)
       .catch(errorHandler);
   },
+
+  getOneItem(id) {
+    return service
+      .get(`/api/items/${id}`)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  createItem(itemInfo) {
+    return service
+      .post("/api/items", itemInfo)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  updateItem(id, itemInfo) {
+    return service
+      .patch(`/api/items/${id}`, itemInfo)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  deleteItem(id) {
+    return service
+      .delete(`/api/items/${id}`)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  updateUser() {
+    return service
+      .patch(`/api/user/me`)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  }
 };
