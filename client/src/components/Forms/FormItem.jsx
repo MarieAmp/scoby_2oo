@@ -16,13 +16,23 @@ class ItemForm extends Component {
     }
   };
 
+  buildFormData(formData, data, parentKey) {
+    if (data && typeof data === 'object' && !(data instanceof File)) {
+      Object.keys(data).forEach(key => {
+        this.buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+      });
+    } else {
+      const value = data == null ? '' : data;
+  
+      formData.append(parentKey, value);
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
 
     const fd = new FormData();
-    for (let key in this.state) {
-      fd.append(key, this.state[key]);
-    }
+    this.buildFormData(fd, this.state)
 
     apiHandler
       .createItem(fd)
@@ -47,6 +57,7 @@ class ItemForm extends Component {
     };
     this.setState({
       location: location,
+      address: place.place_name
     });
   };
 
