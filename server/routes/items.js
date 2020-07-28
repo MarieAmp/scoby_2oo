@@ -23,12 +23,10 @@ router.get("/:id", (req, res, next) => {
 
 //Create one item with the arguments provided in the request
 router.post("/", fileUploader.single("image"), (req, res, next) => {
-
     const {name, description, category, quantity, address, location} = req.body;
     const newItem = {name, description, category, quantity, address, location};
-    if(req.file) newItem.image = req.file.secure_url;
+    if(req.file) newItem.image = req.file.path;
     newItem.id_user= req.session.currentUser._id;
-
     Item.create(newItem)
     .then( item => {
         res.status(201).json(item)
