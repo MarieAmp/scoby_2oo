@@ -79,9 +79,9 @@ export default {
       .catch(errorHandler);
   },
 
-  updateUser() {
+  updateUser(updatedData) {
     return service
-      .patch(`/api/user/me`)
+      .patch(`/api/user/me`, updatedData)
       .then((res) => res.data)
       .catch(errorHandler);
   }
