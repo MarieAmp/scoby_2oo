@@ -20,7 +20,7 @@ class Profile extends Component {
       .updateUser(this.state)
       .then((data) => {
         console.log(data)
-        // this.props.history.push("/profile/settings");
+        this.props.history.push("/profile");
       })      
       .catch((error) => {
         console.log(error);
@@ -30,7 +30,7 @@ class Profile extends Component {
   render() {
     const { authContext } = this.props;
     const { user } = authContext;
-    // console.log(user);
+   
     return (
       <div style={{ padding: "100px", fontSize: "1.25rem" }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>

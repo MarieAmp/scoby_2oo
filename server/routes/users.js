@@ -52,30 +52,5 @@ router.patch(
       });
   }
 );
-//     catch(error) {
-//       res.status(500).json(error);
-//     };
-// });
-// })
-
-router.get(
-  "/profile/settings",
-  fileUploader.single("profileImg"),
-  (req, res, next) => {
-    const { firstName, lastName, email, password, phoneNumber } = req.body;
-
-    User.findOne(req.session.currentUser._id)
-      .then((userDocument) => {
-        const userObj = userDocument.toObject();
-        delete userObj.password;
-        req.session.currentUser = userObj;
-        res.send(userDocument);
-      })
-
-      .catch((error) => {
-        res.status(500).json(error);
-      });
-  }
-);
-
+  
 module.exports = router;
