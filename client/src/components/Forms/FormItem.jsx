@@ -8,11 +8,12 @@ class ItemForm extends Component {
 
   handleChange = (event) => {
     const input = event.target;
-
-    this.setState({
-      [input.id]: input.type === "file" ? input.files[0] : input.value,
-      // tempImage: input.type === "file" && URL.createObjectURL(event.target.files[0])
-    });
+    if (input.name !== "location" && input.name !== "contact") {
+      this.setState({
+        [input.name]: input.type === "file" ? input.files[0] : input.value,
+        // tempImage: input.type === "file" && URL.createObjectURL(event.target.files[0])
+      });
+    }
   };
 
   handleSubmit = (event) => {
@@ -23,13 +24,12 @@ class ItemForm extends Component {
       fd.append(key, this.state[key]);
     }
 
-    console.log(fd);
-    // apiHandler
-    //   .createItem(fd)
-    //   .then((apiRes) => {
-    //     console.log("Item created ==> ", apiRes);
-    //   })
-    //   .catch((error) => console.log(error));
+    apiHandler
+      .createItem(fd)
+      .then((apiRes) => {
+        console.log("Item created ==> ", apiRes);
+      })
+      .catch((error) => console.log(error));
 
     // In order to send back the data to the client, since there is an input type file you have to send the
     // data as formdata.
@@ -40,10 +40,14 @@ class ItemForm extends Component {
   };
 
   handlePlace = (place) => {
-    // This handle is passed as a callback to the autocomplete component.
-    // Take a look at the data and see what you can get from it.
-    // Look at the item model to know what you should retrieve and set as state.
-    console.log(place);
+    const location = {
+      type: place.geometry.type,
+      coordinates: place.geometry.coordinates,
+      formattedAddress: place.place_name,
+    };
+    this.setState({
+      location: location,
+    });
   };
 
   render() {
@@ -62,6 +66,7 @@ class ItemForm extends Component {
             </label>
             <input
               id="name"
+              name="name"
               className="input"
               type="text"
               placeholder="What are you giving away ?"
@@ -73,7 +78,7 @@ class ItemForm extends Component {
               Category
             </label>
 
-            <select id="category" defaultValue="-1">
+            <select id="category" name="category" defaultValue="-1">
               <option value="-1" disabled>
                 Select a category
               </option>
@@ -88,7 +93,12 @@ class ItemForm extends Component {
             <label className="label" htmlFor="quantity">
               Quantity
             </label>
-            <input className="input" id="quantity" type="number" />
+            <input
+              className="input"
+              id="quantity"
+              name="quantity"
+              type="number"
+            />
           </div>
 
           <div className="form-group">
@@ -105,6 +115,7 @@ class ItemForm extends Component {
             <textarea
               id="description"
               className="text-area"
+              name="description"
               placeholder="Tell us something about this item"
             ></textarea>
           </div>
@@ -113,7 +124,7 @@ class ItemForm extends Component {
             <label className="custom-upload label" htmlFor="image">
               Upload image
             </label>
-            <input className="input" id="image" type="file" />
+            <input className="input" id="image" name="image" type="file" />
           </div>
 
           <h2>Contact information</h2>
@@ -123,10 +134,10 @@ class ItemForm extends Component {
               How do you want to be reached?
             </label>
             <div>
-              <input type="radio" />
+              <input name="contact" value="email" type="radio" />
               user email
             </div>
-            <input type="radio" />
+            <input name="contact" value="phone" type="radio" />
             contact phone number
           </div>
 

@@ -70,6 +70,7 @@ class LocationAutoComplete extends Component {
         <input
           className="input"
           type="text"
+          name="location"
           value={this.state.search}
           onChange={this.handleSearchChange}
           placeholder="Enter an address"
