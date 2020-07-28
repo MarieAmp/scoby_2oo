@@ -3,13 +3,34 @@ import { Link } from "react-router-dom";
 import { withUser } from "../components/Auth/withUser";
 import "../styles/Profile.css";
 import "../styles/CardItem.css";
+import apiHandler from "./../api/apiHandler";
 
 class Profile extends Component {
- 
+  state = {};
+
+  handleChange = (event) => {
+    const key = event.target.name;
+    const value = event.target.value;
+    this.setState({ [key]: value });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+        apiHandler
+      .updateUser(this.state)
+      .then((data) => {
+        console.log(data)
+        // this.props.history.push("/profile/settings");
+      })      
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
     const { authContext } = this.props;
     const { user } = authContext;
-console.log(user)
+    // console.log(user);
     return (
       <div style={{ padding: "100px", fontSize: "1.25rem" }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: "10px" }}>
@@ -41,11 +62,17 @@ console.log(user)
             </Link>
           </div>
 
-
-          <div className="user-contact" style={{display:user.phoneNumber&&"none"}} >
+          <div
+            className="user-contact"
+            style={{ display: user.phoneNumber && "none" }}
+          >
             <h4>Add a phone number</h4>
 
-            <form className="form">
+            <form
+              className="form"
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+            >
               <div className="form-group">
                 <label className="label" htmlFor="phoneNumber">
                   Phone number
