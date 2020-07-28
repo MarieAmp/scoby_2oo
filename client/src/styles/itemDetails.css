@@ -1,0 +1,74 @@
+.info-card_container{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    left: 25px;
+    top: 0px;
+    box-shadow: 0 0 50px lightgrey;
+    border-radius: 20px;
+    background-color: white;
+    width: 400px;
+    padding: 25px;
+    margin: 75px auto;
+    z-index: 100;
+    overflow-y: auto;
+    max-height: 75vh;
+}
+
+.info-card_container .close-link{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 50px;
+    border-radius: 10px;
+    color: #5663ff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.info-card_container .round_image{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    position: relative;
+    margin: 25px auto 10px;
+}
+
+.info-card_container .h2{
+    margin: 0;
+    text-align: center;
+}
+
+.info-card_container .info-card_info{
+    margin: 10px auto;
+}
+
+.info-card_container .user_info{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-card_container .contact_information{
+    text-align: center;
+    margin-top: 20px;
+    background-color: #f1f2ff;
+    padding: 15px;
+    width: 94%;
+    border-radius: 10px;
+    color: #5663ff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.round_image_user{
+    max-height: 30px;
+    max-width: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-right: 10px;
+}

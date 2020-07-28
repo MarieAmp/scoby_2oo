@@ -1,29 +1,42 @@
-import React from "react";
-import ReactMapboxGl from "react-mapbox-gl";
-import { Layer, Feature } from "react-mapbox-gl";
+import React, { Component } from "react";
+import apiHandler from "../api/apiHandler";
+import ItemDetails from "../components/ItemDetails";
+import "../styles/home.css";
+import HomeMap from "../components/HomeMap";
 
-const Home = (props) => {
-  const Map = ReactMapboxGl({
-    accessToken:
-      "pk.eyJ1IjoibWFyaWVhbXAiLCJhIjoiY2tkNGh5NnliMXJhcTJzbzdpbnZpNmw1bCJ9.rQjywXc3E0QEzGao20SB0A",
-  });
+class Home extends Component {
+  state = {
+    itemDetailsAreDisplayed: false,
+    selectedItem: null,
+  };
 
-  return (
-    <div>
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        containerStyle={{
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
-        <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
-          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-        </Layer>
-      </Map>
-      ;
-    </div>
-  );
-};
+  displayItemDetails = (itemId) => {
+    // console.log(itemId)
+    apiHandler
+      .getOneItem(itemId)
+      .then((fetchedItem) => {
+        this.setState({
+          selectedItem: fetchedItem,
+          itemDetailsAreDisplayed: true,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  handleClose = () => {
+    this.setState({
+      itemDetailsAreDisplayed: false
+    })
+  }
+
+  render() {
+    return (
+      <div className="home">
+        <HomeMap handleClick={this.displayItemDetails} />
+        <ItemDetails display={this.state.itemDetailsAreDisplayed} item={this.state.selectedItem} handleClose={this.handleClose} />;
+      </div>
+    );
+  }
+}
 
 export default Home;
